@@ -1,318 +1,359 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Button from '@/components/Button.astro';
-import SectionHeader from '@/components/SectionHeader.astro';
-import HeroVisual from '@/components/HeroVisual.astro';
-import siteData from '@/data/site.json';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteData from '../data/site.json';
 import { getCollection } from 'astro:content';
 
-const services = await getCollection('services');
-const testimonials = await getCollection('testimonials');
-const plans = await getCollection('pricing-plans');
+let products = [];
+let testimonials = [];
+try {
+  products = await getCollection('products');
+  products = products.sort((a, b) => (a.data.order || 0) - (b.data.order || 0)).slice(0, 6);
+} catch (e) {}
+try {
+  testimonials = await getCollection('testimonials');
+  testimonials = testimonials.filter(t => t.data.featured).slice(0, 3);
+} catch (e) {}
 
-const { hero, sections, company } = siteData;
-const sortedServices = services.sort((a, b) => (a.data.order || 0) - (b.data.order || 0)).slice(0, 6);
-const featuredTestimonials = testimonials.filter(t => t.data.featured).slice(0, 3);
-const sortedPlans = plans.sort((a, b) => (a.data.order || 0) - (b.data.order || 0)).slice(0, 3);
-
-const suiteTabs = sortedServices.slice(0, 4).map((s) => ({
-  slug: s.slug,
-  title: s.data.title,
-  description: s.data.shortDescription,
-  bullets: (s.data.features || []).slice(0, 4),
-}));
+const { hero, sections, company, socialProof } = siteData;
 ---
 
 <BaseLayout>
   <!-- Hero Section -->
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0">
-      <div class="absolute inset-0 bg-gradient-to-b from-[#070A12] via-[#070A12] to-[#05060b]"></div>
-      <div class="absolute -top-56 left-1/2 -translate-x-1/2 h-[680px] w-[680px] rounded-full bg-primary-600/22 blur-3xl"></div>
-      <div class="absolute -bottom-64 right-0 h-[720px] w-[720px] rounded-full bg-accent-400/18 blur-3xl"></div>
-      <div class="absolute inset-0 opacity-[0.06]" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.55) 1px, transparent 0); background-size: 22px 22px;"></div>
+  <section class="relative bg-slate-900 overflow-hidden">
+    <div class="absolute inset-0 opacity-20">
+      {hero.backgroundImage ? (
+        <img 
+          src={hero.backgroundImage}
+          alt=""
+          class="w-full h-full object-cover"
+        />
+      ) : (
+        <div class="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900"></div>
+      )}
     </div>
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 sm:pt-24 sm:pb-16">
-      <div class="grid lg:grid-cols-12 gap-10 items-start">
-        <div class="lg:col-span-6">
-          {hero.trustBadges && (
-            <div class="flex flex-wrap gap-2 mb-7">
-              {hero.trustBadges.map((b) => (
-                <span class="inline-flex items-center rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/75">
-                  {b}
-                </span>
-              ))}
-            </div>
-          )}
-
-          <h1 class="font-display text-5xl sm:text-6xl lg:text-[64px] leading-[1.02] font-bold tracking-tight">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-tight">
             {hero.headline}
           </h1>
-
-          {hero.subheadline && (
-            <h2 class="mt-5 text-xl sm:text-2xl text-white/75 leading-relaxed max-w-xl">
-              {hero.subheadline}
-            </h2>
+        <p class="mt-6 text-xl text-slate-300 leading-relaxed">
+            {hero.subheadline}
+          </p>
+          
+        <!-- CTAs -->
+        <div class="mt-10 flex flex-col sm:flex-row gap-4">
+          <a 
+            href={hero.cta?.href || '/contact'}
+            class="inline-flex items-center justify-center px-8 py-4 bg-accent-500 text-white text-lg font-bold rounded-lg hover:bg-accent-600 transition-all shadow-lg"
+          >
+            {hero.cta?.label || 'Request a Quote'}
+          </a>
+          {hero.secondaryCta && (
+            <a 
+              href={hero.secondaryCta.href}
+              class="inline-flex items-center justify-center px-8 py-4 bg-white/10 text-white text-lg font-bold rounded-lg hover:bg-white/20 transition-all border border-white/30"
+            >
+              {hero.secondaryCta.label}
+            </a>
           )}
-
-          <div class="mt-9 flex flex-wrap items-center gap-4">
-            <Button href={hero.cta.href} style="white" size="lg">
-              {hero.cta.label}
-            </Button>
-            {hero.secondaryCta && (
-              <a href={hero.secondaryCta.href} class="text-sm font-semibold text-white/75 hover:text-white transition-colors">
-                {hero.secondaryCta.label} →
-              </a>
-            )}
-          </div>
-
-          <div class="mt-10 flex flex-wrap gap-6 text-sm text-white/55">
-            {(siteData.sections?.stats?.stats || siteData.socialProof?.stats || []).slice(0, 3).map((s) => (
-              <div class="flex items-baseline gap-2">
-                <span class="text-white/85 font-semibold">{s.value}</span>
-                <span>{s.label}</span>
-              </div>
-            ))}
-          </div>
-
-          <div class="mt-12 border-t border-white/10 pt-6">
-            <div class="text-xs uppercase tracking-[0.22em] text-white/50">Trusted by</div>
-            <div class="mt-4 flex flex-wrap gap-x-6 gap-y-3 text-white/60 font-semibold">
-              {["High-velocity SaaS", "Founders", "Sales teams", "Operators", "Execs"].map((x) => (
-                <span class="px-3 py-1 rounded-full border border-white/10 bg-white/[0.02]">{x}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-6 lg:pt-4">
-          <HeroVisual />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- “Suite” (segmented) section -->
-  {suiteTabs.length > 0 && (
-    <section class="py-20 border-t border-white/10">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between gap-6 flex-wrap">
-          <div class="max-w-3xl">
-            <p class="text-xs uppercase tracking-[0.22em] text-white/60">Your suite</p>
-            <h2 class="mt-4 font-display text-4xl sm:text-5xl font-bold tracking-tight text-white">
-              Move faster with the right modules
-            </h2>
-          </div>
-          <div class="flex items-center gap-3">
-            <Button href="/services" style="outline" class="border-white/20 text-white hover:bg-white/10">
-              Explore features
-            </Button>
-            <Button href="/pricing" style="white">
-              Get Superflow
-            </Button>
-          </div>
-        </div>
-
-        <div class="mt-10 flex flex-wrap gap-2" data-suite-tabs>
-          {suiteTabs.map((t, idx) => (
-            <button
-              type="button"
-              data-tab={t.slug}
-              class:list={[
-                "px-4 py-2 rounded-full border text-sm font-semibold transition-colors",
-                idx === 0 ? "border-white/20 bg-white text-[#070A12]" : "border-white/10 bg-white/[0.03] text-white/75 hover:bg-white/[0.06]"
-              ]}
-            >
-              {t.title}
-            </button>
-          ))}
-        </div>
-
-        <div class="mt-8">
-          {suiteTabs.map((t, idx) => (
-            <div data-panel={t.slug} class:list={[idx !== 0 && "hidden"]}>
-              <div class="grid lg:grid-cols-12 gap-6 items-stretch">
-                <div class="lg:col-span-5 rounded-3xl border border-white/10 bg-white/[0.03] p-8">
-                  <div class="text-xs uppercase tracking-[0.22em] text-white/55">Module</div>
-                  <h3 class="mt-3 font-display text-3xl font-bold text-white">{t.title}</h3>
-                  {t.description && <p class="mt-4 text-white/70 text-lg leading-relaxed">{t.description}</p>}
-                  <div class="mt-8 flex gap-3">
-                    <Button href={`/services/${t.slug}`} style="white">
-                      Learn more
-                    </Button>
-                    <Button href="/pricing" style="outline" class="border-white/20 text-white hover:bg-white/10">
-                      View pricing
-                    </Button>
-                  </div>
-                </div>
-                <div class="lg:col-span-7 rounded-3xl border border-white/10 bg-white/[0.03] p-8">
-                  <div class="text-xs uppercase tracking-[0.22em] text-white/55">Highlights</div>
-                  <ul class="mt-5 grid sm:grid-cols-2 gap-4">
-                    {(t.bullets || []).map((b) => (
-                      <li class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
-                        <div class="flex items-start gap-3">
-                          <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white/[0.04] border border-white/10 text-white/80">✓</span>
-                          <div class="text-white/75 leading-relaxed">{b}</div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+  <!-- Trust Indicators -->
+  {socialProof && (
+    <section class="bg-white border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <p class="text-center text-sm font-medium text-slate-500 mb-6">
+          {socialProof.trustedBy || 'Trusted by businesses nationwide'}
+        </p>
+        {socialProof.stats && (
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+          {socialProof.stats.map((stat) => (
+            <div class="text-center">
+                <div class="text-3xl lg:text-4xl font-display font-bold text-brand-700">
+                {stat.value}
+              </div>
+                <div class="mt-1 text-slate-600 text-sm font-medium">
+                {stat.label}
               </div>
             </div>
           ))}
         </div>
+        )}
       </div>
     </section>
   )}
 
-  <!-- Feature grid -->
-  {sortedServices.length > 0 && (
-    <section class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader headline={sections.services?.headline || 'Features'} description={sections.services?.description} />
-        <div class="mt-12 grid md:grid-cols-12 gap-6">
-          {sortedServices.map((feature, idx) => (
-            <a
-              href={`/services/${feature.slug}`}
-              class:list={[
-                "group rounded-3xl border border-white/10 bg-white/[0.03] p-7 hover:bg-white/[0.05] transition-colors",
-                idx === 0 ? "md:col-span-7" : idx === 1 ? "md:col-span-5" : "md:col-span-4"
-              ]}
+  <!-- Products Section -->
+  <section class="py-16 lg:py-24 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+        <span class="text-sm font-bold uppercase tracking-wider text-brand-600">Our Products</span>
+        <h2 class="mt-2 text-3xl lg:text-4xl font-display font-bold text-slate-900">
+          {sections.products?.headline || 'Product Categories'}
+          </h2>
+        <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+          {sections.products?.description || 'Explore our comprehensive selection of industrial containers and packaging solutions.'}
+        </p>
+        </div>
+        
+      {products.length > 0 ? (
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <a 
+              href={`/products/${product.slug}`}
+              class="group bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all border border-slate-200 hover:border-brand-300"
             >
-              <div class="flex items-center justify-between gap-4">
-                <div class="text-xs uppercase tracking-[0.22em] text-white/50">Feature</div>
-                <div class="text-sm font-semibold text-white/70 group-hover:text-white">Learn →</div>
-              </div>
-              <h3 class="mt-4 font-display text-2xl sm:text-3xl font-bold text-white">{feature.data.title}</h3>
-              {feature.data.shortDescription && (
-                <p class="mt-3 text-white/65 leading-relaxed text-lg">{feature.data.shortDescription}</p>
+              {product.data.image ? (
+                <div class="aspect-[4/3] rounded-lg overflow-hidden bg-slate-100 mb-4">
+                  <img 
+                    src={product.data.image}
+                    alt={product.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              ) : (
+                <div class="aspect-[4/3] rounded-lg bg-brand-100 flex items-center justify-center mb-4">
+                  <svg class="w-16 h-16 text-brand-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                  </svg>
+                </div>
               )}
-              {feature.data.features?.length ? (
-                <ul class="mt-6 space-y-2 text-white/60">
-                  {feature.data.features.slice(0, 3).map((b) => (
-                    <li class="flex items-start gap-3">
-                      <span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/30"></span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
+              <h3 class="text-xl font-display font-bold text-slate-900 group-hover:text-brand-700 transition-colors">
+                {product.data.title}
+              </h3>
+              <p class="mt-2 text-slate-600 text-sm line-clamp-2">
+                {product.data.shortDescription || product.data.description}
+              </p>
+              <span class="mt-4 inline-flex items-center gap-1 text-brand-600 text-sm font-semibold">
+                View Products
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+              </span>
             </a>
           ))}
         </div>
-      </div>
-    </section>
-  )}
-
-  <!-- Feature spotlight (from site.json) -->
-  {siteData.sections?.features && (
-    <section class="py-20 border-t border-white/10">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader headline={siteData.sections.features.headline} description={siteData.sections.features.description} />
-        <div class="mt-12 grid md:grid-cols-3 gap-6">
-          {siteData.sections.features.features.map((f) => (
-            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-7">
-              <h3 class="font-display text-xl font-bold">{f.title}</h3>
-              <p class="mt-2 text-white/65 leading-relaxed">{f.description}</p>
+      ) : (
+        <!-- Placeholder Products -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            { title: 'Steel Drums', desc: 'Open-head and closed-head steel drums for industrial storage and shipping' },
+            { title: 'Plastic Containers', desc: 'Durable polyethylene drums and containers in various sizes' },
+            { title: 'IBCs & Totes', desc: 'Intermediate bulk containers for efficient liquid storage and transport' },
+            { title: 'Pails & Cans', desc: 'Metal and plastic pails for smaller volume packaging needs' },
+            { title: 'Fiber Drums', desc: 'Eco-friendly fiber drums for dry product storage' },
+            { title: 'Accessories', desc: 'Lids, liners, fittings, and other container accessories' },
+          ].map((product) => (
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <div class="aspect-[4/3] rounded-lg bg-brand-100 flex items-center justify-center mb-4">
+                <svg class="w-16 h-16 text-brand-300" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                  </svg>
+              </div>
+              <h3 class="text-xl font-display font-bold text-slate-900">{product.title}</h3>
+              <p class="mt-2 text-slate-600 text-sm">{product.desc}</p>
             </div>
           ))}
         </div>
-      </div>
-    </section>
-  )}
-
-  <!-- Pricing preview -->
-  {sortedPlans.length > 0 && (
-    <section class="py-20 border-t border-white/10">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader headline="Pricing" description="Pick a plan and go faster in minutes." />
-        <div class="mt-12 grid lg:grid-cols-3 gap-6">
-          {sortedPlans.map((plan) => (
-            <div class:list={[
-              'rounded-2xl border p-8',
-              plan.data.highlighted ? 'border-white/20 bg-white/5' : 'border-white/10 bg-white/[0.03]',
-            ]}>
-              <div class="flex items-center justify-between gap-4">
-                <h3 class="font-display text-2xl font-bold">{plan.data.name}</h3>
-                {plan.data.highlighted && <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/10 text-white/80">Popular</span>}
-              </div>
-              <p class="mt-3 text-white/70">{plan.data.description}</p>
-              <div class="mt-7 text-3xl font-bold">{plan.data.price}</div>
-              <div class="mt-6">
-                <Button href="/pricing" style={plan.data.highlighted ? 'white' : 'outline'} class={plan.data.highlighted ? 'w-full' : 'w-full border-white/20 text-white hover:bg-white/10'}>
-                  View pricing
-                </Button>
-              </div>
-            </div>
-          ))}
+      )}
+      
+      <div class="mt-12 text-center">
+        <a 
+          href="/products"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-brand-700 text-white font-bold rounded-lg hover:bg-brand-800 transition-colors"
+        >
+          View All Products
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
         </div>
       </div>
     </section>
-  )}
 
-  <!-- Testimonials -->
-  {featuredTestimonials.length > 0 && (
-    <section class="py-20 border-t border-white/10">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader headline={sections.testimonials?.headline || 'Loved by teams'} description={sections.testimonials?.description} />
-        <div class="mt-12 grid md:grid-cols-3 gap-6">
-          {featuredTestimonials.map((t) => (
-            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-7">
-              <div class="text-white/80">“{t.data.quote}”</div>
-              <div class="mt-6 text-sm text-white/60">
-                <span class="font-semibold text-white/80">{t.data.author}</span>
-                {t.data.company ? <span> • {t.data.company}</span> : null}
-              </div>
+  <!-- About Section -->
+  <section class="py-16 lg:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-sm font-bold uppercase tracking-wider text-brand-600">About Us</span>
+          <h2 class="mt-2 text-3xl lg:text-4xl font-display font-bold text-slate-900">
+            {sections.about?.headline || 'Your Industrial Packaging Partner'}
+          </h2>
+          <p class="mt-6 text-lg text-slate-600 leading-relaxed">
+            {sections.about?.content}
+          </p>
+          
+          {sections.about?.values && (
+            <div class="mt-8 space-y-4">
+              {sections.about.values.map((value) => (
+                <div class="flex items-start gap-4">
+                  <div class="flex-shrink-0 w-8 h-8 mt-0.5 rounded-full bg-accent-100 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-accent-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-slate-900">{value.title}</h3>
+                    <p class="text-slate-600 text-sm">{value.description}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  <!-- CTA -->
-  <section class="py-20 border-t border-white/10">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="rounded-3xl border border-white/10 bg-white/[0.03] p-10 sm:p-14">
-        <div class="max-w-3xl">
-          <h2 class="font-display text-3xl sm:text-4xl font-bold">{siteData.sections?.cta?.headline || 'Ready to go faster?'}</h2>
-          <p class="mt-4 text-lg text-white/70">{siteData.sections?.cta?.description || 'Try it today or talk to sales.'}</p>
-          <div class="mt-10 flex flex-wrap gap-3">
-            <Button href={siteData.sections?.cta?.cta?.href || '/pricing'} style="white" size="lg">
-              {siteData.sections?.cta?.cta?.label || 'Get started'}
-            </Button>
-            <Button href={siteData.sections?.cta?.secondaryCta?.href || '/contact'} style="outline" size="lg" class="border-white/20 text-white hover:bg-white/10">
-              {siteData.sections?.cta?.secondaryCta?.label || 'Contact sales'}
-            </Button>
+          )}
+          
+          <div class="mt-8">
+            <a href="/about" class="inline-flex items-center gap-2 text-brand-700 font-bold hover:text-brand-800 transition-colors">
+              Learn More About Us
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
           </div>
         </div>
+        
+        <div class="relative">
+          {sections.about?.image ? (
+            <img 
+              src={sections.about.image}
+              alt="Our Warehouse"
+              class="rounded-2xl shadow-xl"
+            />
+          ) : (
+            <div class="aspect-[4/3] rounded-2xl bg-brand-100 flex items-center justify-center">
+              <svg class="w-24 h-24 text-brand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="py-16 lg:py-24 bg-brand-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-display font-bold text-white">
+          Why Choose Us?
+        </h2>
+      </div>
+      
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {[
+          { icon: 'inventory', title: 'Large Inventory', desc: 'Thousands of products ready to ship from our distribution centers' },
+          { icon: 'price', title: 'Competitive Pricing', desc: 'Volume discounts and wholesale rates for bulk orders' },
+          { icon: 'shipping', title: 'Fast Shipping', desc: 'Quick turnaround times with nationwide delivery' },
+          { icon: 'support', title: 'Expert Support', desc: 'Knowledgeable staff to help you find the right solution' },
+        ].map((feature) => (
+          <div class="text-center">
+            <div class="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-brand-800">
+              {feature.icon === 'inventory' && (
+                <svg class="w-8 h-8 text-accent-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4z" clip-rule="evenodd" />
+                </svg>
+              )}
+              {feature.icon === 'price' && (
+                <svg class="w-8 h-8 text-accent-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
+                </svg>
+              )}
+              {feature.icon === 'shipping' && (
+                <svg class="w-8 h-8 text-accent-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                  <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
+                </svg>
+              )}
+              {feature.icon === 'support' && (
+                <svg class="w-8 h-8 text-accent-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0c0 .993-.241 1.929-.668 2.754l-1.524-1.525a3.997 3.997 0 00.078-2.183l1.562-1.562C15.802 8.249 16 9.1 16 10zm-5.165 3.913l1.58 1.58A5.98 5.98 0 0110 16a5.976 5.976 0 01-2.516-.552l1.562-1.562a4.006 4.006 0 001.789.027zm-4.677-2.796a4.002 4.002 0 01-.041-2.08l-.08.08-1.53-1.533A5.98 5.98 0 004 10c0 .954.223 1.856.619 2.657l1.54-1.54zm1.088-6.45A5.974 5.974 0 0110 4c.954 0 1.856.223 2.657.619l-1.54 1.54a4.002 4.002 0 00-2.346.033L7.246 4.668zM12 10a2 2 0 11-4 0 2 2 0 014 0z" clip-rule="evenodd" />
+                </svg>
+              )}
+            </div>
+            <h3 class="mt-4 text-lg font-display font-bold text-white">{feature.title}</h3>
+            <p class="mt-2 text-blue-200 text-sm">{feature.desc}</p>
+            </div>
+          ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 lg:py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="text-sm font-bold uppercase tracking-wider text-brand-600">Testimonials</span>
+        <h2 class="mt-2 text-3xl lg:text-4xl font-display font-bold text-slate-900">
+          {sections.testimonials?.headline || 'What Our Customers Say'}
+        </h2>
+      </div>
+      
+      {testimonials.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((testimonial) => (
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <p class="text-slate-600 italic">"{testimonial.body}"</p>
+              <div class="mt-4 pt-4 border-t border-slate-100">
+                <p class="font-bold text-slate-900">{testimonial.data.author}</p>
+                {testimonial.data.company && (
+                  <p class="text-slate-500 text-sm">{testimonial.data.company}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <!-- Placeholder testimonials -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[
+            { quote: "Excellent pricing on bulk orders. They've been our go-to supplier for years.", author: "Michael R.", company: "ABC Manufacturing" },
+            { quote: "Fast shipping and quality products. Their team is always helpful with product recommendations.", author: "Sarah L.", company: "Midwest Distributors" },
+            { quote: "We switched to them for our packaging needs and haven't looked back. Great service!", author: "James T.", company: "Pacific Logistics" },
+          ].map((t) => (
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <p class="text-slate-600 italic">"{t.quote}"</p>
+              <div class="mt-4 pt-4 border-t border-slate-100">
+                <p class="font-bold text-slate-900">{t.author}</p>
+                <p class="text-slate-500 text-sm">{t.company}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 lg:py-20 bg-accent-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl lg:text-4xl font-display font-bold text-white">
+        {sections.cta?.headline || "Ready to Order?"}
+      </h2>
+      <p class="mt-4 text-xl text-orange-100">
+        {sections.cta?.description || "Contact our sales team for a custom quote on your packaging needs. Volume discounts available."}
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/contact"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-accent-700 text-lg font-bold rounded-lg hover:bg-slate-100 transition-colors"
+        >
+          {sections.cta?.cta?.label || 'Request a Quote'}
+        </a>
+        <a 
+          href={`tel:${company.phone?.replace(/[^0-9+]/g, '')}`}
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-700 text-white text-lg font-bold rounded-lg hover:bg-accent-800 transition-colors border-2 border-white/20"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          Call {company.phone}
+        </a>
       </div>
     </div>
   </section>
 </BaseLayout>
-
-<script>
-  const root = document.querySelector('[data-suite-tabs]');
-  if (root) {
-    const buttons = Array.from(root.querySelectorAll('button[data-tab]'));
-    const panels = Array.from(document.querySelectorAll('[data-panel]'));
-    const setActive = (slug) => {
-      for (const b of buttons) {
-        const isActive = b.getAttribute('data-tab') === slug;
-        b.classList.toggle('bg-white', isActive);
-        b.classList.toggle('text-[#070A12]', isActive);
-        b.classList.toggle('border-white/20', isActive);
-
-        b.classList.toggle('bg-white/[0.03]', !isActive);
-        b.classList.toggle('text-white/75', !isActive);
-        b.classList.toggle('border-white/10', !isActive);
-      }
-      for (const p of panels) {
-        const isActive = p.getAttribute('data-panel') === slug;
-        p.classList.toggle('hidden', !isActive);
-      }
-    };
-    buttons.forEach((b) => b.addEventListener('click', () => setActive(b.getAttribute('data-tab'))));
-  }
-</script>

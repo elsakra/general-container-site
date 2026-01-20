@@ -1,11 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 44" fill="none">
-  <defs>
-    <linearGradient id="sf-grad" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#7C3AED"/>
-      <stop offset="1" stop-color="#22D3EE"/>
-    </linearGradient>
-  </defs>
-  <rect x="2" y="4" width="36" height="36" rx="10" fill="url(#sf-grad)"/>
-  <path d="M23.5 10.5 16 24.5h7l-2.5 9 9-15h-7l1-8z" fill="#070A12"/>
-  <text x="52" y="28" font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#FFFFFF">Superflow</text>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wrench/Tool shape -->
+  <rect width="48" height="48" rx="10" fill="#1e3a8a"/>
+  <!-- Pipe/wrench icon -->
+  <path d="M14 20h8v-4a2 2 0 012-2h8a2 2 0 012 2v4h-8v4h8v4a2 2 0 01-2 2h-8a2 2 0 01-2-2v-4h-8v-4z" fill="#dc2626"/>
+  <!-- Water drop -->
+  <path d="M32 26c0 2.21-1.79 4-4 4s-4-1.79-4-4c0-2.76 4-8 4-8s4 5.24 4 8z" fill="#60a5fa"/>
 </svg>

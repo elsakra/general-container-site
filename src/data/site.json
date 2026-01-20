@@ -15,19 +15,19 @@
   },
   "hero": {
     "headline": "Complete Selection of Shipping and Storage Containers",
-    "subheadline": "We offer the most complete selection of shipping and storage containers available, including Stainless Steel Drums, Steel Drums, Polyethylene Drums, and more.",
+    "subheadline": "Stainless Steel Drums, Steel Drums, Polyethylene Drums, Overpack/Salvage Drums, CurTec Packaging, Pails and Cans, Fiber Drums, and more",
     "cta": {
       "label": "REQUEST A QUOTE",
-      "href": "/quote"
+      "href": "/contact"
     },
     "secondaryCta": null,
-    "backgroundImage": "https://plus.unsplash.com/premium_photo-1661964205360-b0621b5a9366?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8cmV0YWlsJTIwc3RvcmUlMjBtb2Rlcm4lMjBpbnRlcmlvcnxlbnwwfDB8fHwxNzY4OTM5ODEzfDA&ixlib=rb-4.1.0&q=80&w=1080"
+    "backgroundImage": "https://plus.unsplash.com/premium_photo-1675313222284-bb156afd7130?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8c2hpcHBpbmclMjBjb250YWluZXJzJTIwc3RhY2tlZHxlbnwwfDB8fHwxNzY4OTQxNjIyfDA&ixlib=rb-4.1.0&q=80&w=1080"
   },
   "sections": {
     "about": {
       "headline": "About Us",
-      "content": "General Container offers the most complete selection of shipping and storage containers available, including Stainless Steel Drums, Steel Drums, Polyethylene Drums, Overpack/Salvage Drums, CurTec Packaging, Pails and Cans, Fiber Drums, Intermediate Bulk Containers, and Composite Drums.",
-      "image": "https://plus.unsplash.com/premium_photo-1732724381138-5234921c3eb1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8cHJvZHVjdCUyMGRpc3BsYXklMjBwcm9mZXNzaW9uYWx8ZW58MHwwfHx8MTc2ODkzMTY3OHww&ixlib=rb-4.1.0&q=80&w=1080"
+      "content": "General Container offers the most complete selection of shipping and storage containers available. We specialize in Stainless Steel Drums, Steel Drums, Polyethylene Drums, Overpack/Salvage Drums, CurTec Packaging, Pails and Cans, Fiber Drums, Intermediate Bulk Containers, and Composite Drums.",
+      "image": "https://plus.unsplash.com/premium_photo-1675313222284-bb156afd7130?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8c2hpcHBpbmclMjBjb250YWluZXJzJTIwc3RhY2tlZHxlbnwwfDB8fHwxNzY4OTQxNjIzfDA&ixlib=rb-4.1.0&q=80&w=1080"
     },
     "services": {
       "headline": "Our Container Solutions"

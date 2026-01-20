@@ -140,135 +140,30 @@ declare module 'astro:content' {
 	>;
 
 	type ContentEntryMap = {
-		"blog": {
-"get-to-inbox-zero.md": {
-	id: "get-to-inbox-zero.md";
-  slug: "get-to-inbox-zero";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-};
-"faq": {
-"migration.md": {
-	id: "migration.md";
-  slug: "migration";
+		"faq": Record<string, {
+  id: string;
+  slug: string;
   body: string;
   collection: "faq";
-  data: InferEntrySchema<"faq">
-} & { render(): Render[".md"] };
-"security.md": {
-	id: "security.md";
-  slug: "security";
+  data: InferEntrySchema<"faq">;
+  render(): Render[".md"];
+}>;
+"products": Record<string, {
+  id: string;
+  slug: string;
   body: string;
-  collection: "faq";
-  data: InferEntrySchema<"faq">
-} & { render(): Render[".md"] };
-};
-"pricing-plans": {
-"enterprise.md": {
-	id: "enterprise.md";
-  slug: "enterprise";
-  body: string;
-  collection: "pricing-plans";
-  data: InferEntrySchema<"pricing-plans">
-} & { render(): Render[".md"] };
-"pro.md": {
-	id: "pro.md";
-  slug: "pro";
-  body: string;
-  collection: "pricing-plans";
-  data: InferEntrySchema<"pricing-plans">
-} & { render(): Render[".md"] };
-"starter.md": {
-	id: "starter.md";
-  slug: "starter";
-  body: string;
-  collection: "pricing-plans";
-  data: InferEntrySchema<"pricing-plans">
-} & { render(): Render[".md"] };
-};
-"services": {
-"composite-drums.md": {
-	id: "composite-drums.md";
-  slug: "composite-drums";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-"curtec.md": {
-	id: "curtec.md";
-  slug: "curtec";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-"fiber-drums.md": {
-	id: "fiber-drums.md";
-  slug: "fiber-drums";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-"intermediate-bulk-containers.md": {
-	id: "intermediate-bulk-containers.md";
-  slug: "intermediate-bulk-containers";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-"overpak-salvage-drums.md": {
-	id: "overpak-salvage-drums.md";
-  slug: "overpak-salvage-drums";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-"pails-cans.md": {
-	id: "pails-cans.md";
-  slug: "pails-cans";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-"polyethylene-drums.md": {
-	id: "polyethylene-drums.md";
-  slug: "polyethylene-drums";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-"stainless-steel-drums.md": {
-	id: "stainless-steel-drums.md";
-  slug: "stainless-steel-drums";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-"steel-drums.md": {
-	id: "steel-drums.md";
-  slug: "steel-drums";
-  body: string;
-  collection: "services";
-  data: InferEntrySchema<"services">
-} & { render(): Render[".md"] };
-};
-"testimonials": {
-"founder.md": {
-	id: "founder.md";
-  slug: "founder";
+  collection: "products";
+  data: InferEntrySchema<"products">;
+  render(): Render[".md"];
+}>;
+"testimonials": Record<string, {
+  id: string;
+  slug: string;
   body: string;
   collection: "testimonials";
-  data: InferEntrySchema<"testimonials">
-} & { render(): Render[".md"] };
-"sales-lead.md": {
-	id: "sales-lead.md";
-  slug: "sales-lead";
-  body: string;
-  collection: "testimonials";
-  data: InferEntrySchema<"testimonials">
-} & { render(): Render[".md"] };
-};
+  data: InferEntrySchema<"testimonials">;
+  render(): Render[".md"];
+}>;
 
 	};
 

@@ -1,7 +1,8 @@
 ---
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import siteData from '@/data/site.json';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import siteData from '../data/site.json';
 
 interface Props {
   title?: string;
@@ -19,21 +20,27 @@ const pageDescription = description || siteData.seo.description;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={pageDescription} />
+    <meta name="keywords" content={siteData.seo.keywords?.join(', ')} />
     <title>{pageTitle}</title>
     
-    <!-- Fonts -->
+    <!-- Fonts: Montserrat for headlines, Open Sans for body -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     
-    <!-- Favicon - use logo if it's a CDN URL, otherwise fallback to static -->
+    <!-- Favicon -->
     {siteData.branding?.logo?.includes('cloudinary') || siteData.branding?.logo?.includes('http') ? (
       <link rel="icon" type="image/png" href={siteData.branding.logo} />
     ) : (
       <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     )}
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
   </head>
-  <body class="bg-[#070A12] text-white font-body antialiased">
+  <body class="bg-white text-slate-900 font-body antialiased">
     <Header />
     <main>
       <slot />
@@ -47,20 +54,47 @@ const pageDescription = description || siteData.seo.description;
     scroll-behavior: smooth;
   }
   
-  /* Disable ligatures to prevent font rendering issues */
-  * {
-    font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "hlig" 0;
-    -webkit-font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "hlig" 0;
-    -moz-font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "hlig" 0;
-    font-variant-ligatures: none;
-    -webkit-font-variant-ligatures: none;
-  }
-  
+  /* Font classes */
   .font-display {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Montserrat', system-ui, sans-serif;
   }
   
   .font-body {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Open Sans', system-ui, sans-serif;
+  }
+  
+  /* Hero headline styles */
+  .text-hero {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  
+  .text-display-lg {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Focus styles */
+  :focus-visible {
+    outline: 2px solid #1e3a8a;
+    outline-offset: 2px;
+  }
+  
+  /* Selection color */
+  ::selection {
+    background-color: rgba(30, 58, 138, 0.2);
+    color: inherit;
   }
 </style>

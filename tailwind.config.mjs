@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors';
+
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  // Safelist critical responsive classes to prevent purging
   safelist: [
     'hidden',
     'block',
@@ -15,7 +16,6 @@ export default {
     'md:flex',
     'md:grid-cols-2',
     'md:grid-cols-3',
-    'md:grid-cols-4',
     'lg:block',
     'lg:hidden',
     'lg:flex',
@@ -25,56 +25,55 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Superhuman-inspired: deep dark + electric accents
-        primary: {
-          50: '#F5F3FF',
-          100: '#EDE9FE',
-          200: '#DDD6FE',
-          300: '#C4B5FD',
-          400: '#A78BFA',
-          500: '#8B5CF6',
-          600: '#7C3AED',
-          700: '#6D28D9',
-          800: '#5B21B6',
-          900: '#4C1D95',
-          950: '#2E1065',
+        // Industrial blue palette (primary)
+        brand: {
+          50: '#f0f6ff',
+          100: '#e0edff',
+          200: '#b9d8ff',
+          300: '#7cb8ff',
+          400: '#3690ff',
+          500: '#0b6bff',
+          600: '#0050e0',
+          700: '#003db3',
+          800: '#003494',
+          900: '#1E3A5F',
+          950: '#0f1f38',
         },
+        // Orange accent for CTAs and highlights
         accent: {
-          50: '#ECFEFF',
-          100: '#CFFAFE',
-          200: '#A5F3FC',
-          300: '#67E8F9',
-          400: '#22D3EE',
-          500: '#06B6D4',
-          600: '#0891B2',
-          700: '#0E7490',
-          800: '#155E75',
-          900: '#164E63',
+          50: '#fff7ed',
+          100: '#ffedd5',
+          200: '#fed7aa',
+          300: '#fdba74',
+          400: '#fb923c',
+          500: '#f97316',
+          600: '#ea580c',
+          700: '#c2410c',
+          800: '#9a3412',
+          900: '#7c2d12',
         },
-        slate: {
-          50: '#F8FAFC',
-          100: '#F1F5F9',
-          200: '#E2E8F0',
-          300: '#CBD5E1',
-          400: '#94A3B8',
-          500: '#64748B',
-          600: '#475569',
-          700: '#334155',
-          800: '#1E293B',
-          900: '#0F172A',
+        // Teal secondary for supporting elements
+        secondary: {
+          50: '#f0fdfa',
+          100: '#ccfbf1',
+          200: '#99f6e4',
+          300: '#5eead4',
+          400: '#2dd4bf',
+          500: '#14b8a6',
+          600: '#0d9488',
+          700: '#0f766e',
+          800: '#115e59',
+          900: '#134e4a',
         },
+        slate: colors.slate,
       },
       fontFamily: {
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Montserrat', 'system-ui', 'sans-serif'],
+        body: ['Open Sans', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        '4.5xl': ['2.5rem', { lineHeight: '1.15' }],
-        '5.5xl': ['3.25rem', { lineHeight: '1.1' }],
-      },
-      boxShadow: {
-        'card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        'card-hover': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+        'hero': ['clamp(2.5rem, 6vw, 4rem)', { lineHeight: '1.1', fontWeight: '800' }],
+        'display-lg': ['clamp(2rem, 4vw, 3rem)', { lineHeight: '1.2', fontWeight: '700' }],
       },
     },
   },

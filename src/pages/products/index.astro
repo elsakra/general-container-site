@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import siteData from '../../data/site.json';
+import { getCollection } from 'astro:content';
+
+let products = [];
+try {
+  products = await getCollection('products');
+  products = products.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+} catch (e) {}
+const { sections, company } = siteData;
+---
+
+<BaseLayout title="Products">
+  <!-- Hero -->
+  <section class="pt-32 pb-16 bg-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white">
+          {sections.products?.headline || "Our Products"}
+        </h1>
+        {sections.products?.description && (
+          <p class="mt-6 text-xl text-slate-300 leading-relaxed">
+            {sections.products.description}
+          </p>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <section class="py-16 lg:py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {products.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {products.map((product) => (
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-slate-200">
+              {product.data.image ? (
+                <div class="aspect-[4/3] overflow-hidden">
+                  <img 
+                    src={product.data.image} 
+                    alt={product.data.title}
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div class="aspect-[4/3] bg-brand-100 flex items-center justify-center">
+                  <svg class="w-16 h-16 text-brand-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              )}
+              <div class="p-6">
+                <h2 class="text-xl font-display font-bold text-slate-900">
+                  {product.data.title}
+                </h2>
+                {product.data.shortDescription && (
+                  <p class="mt-2 text-slate-600 text-sm line-clamp-3">
+                    {product.data.shortDescription}
+                  </p>
+                )}
+                
+                {product.data.features && product.data.features.length > 0 && (
+                  <ul class="mt-4 space-y-1">
+                    {product.data.features.slice(0, 4).map((feature) => (
+                      <li class="flex items-start gap-2 text-sm text-slate-600">
+                        <svg class="w-4 h-4 text-brand-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                
+                <div class="mt-6">
+                  <Button href="/contact" style="primary">
+                    Request Quote
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <!-- Placeholder Products -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[
+            { title: 'Steel Drums', desc: 'Open-head and closed-head steel drums in various sizes. Available in 30, 55, and 85-gallon capacities.', features: ['UN-rated options', 'Multiple gauge thicknesses', 'Various lining options'] },
+            { title: 'Plastic Drums', desc: 'High-density polyethylene drums for chemical resistance and durability. Lightweight and recyclable.', features: ['Tight-head and open-head', 'FDA-compliant options', 'UV stabilized'] },
+            { title: 'IBCs & Totes', desc: 'Intermediate bulk containers for efficient storage and transport of liquids in large volumes.', features: ['275-330 gallon capacity', 'Stackable design', 'Reusable/reconditioned available'] },
+            { title: 'Pails & Cans', desc: 'Metal and plastic pails in 1-7 gallon sizes for smaller volume packaging needs.', features: ['Lever-lock and open-head lids', 'Various coating options', 'UN-rated available'] },
+            { title: 'Fiber Drums', desc: 'Eco-friendly fiber drums for dry goods and non-hazardous materials. Lightweight and recyclable.', features: ['Lock-rim closures', 'Moisture-resistant options', 'Custom printing available'] },
+            { title: 'Container Accessories', desc: 'Lids, liners, fittings, gaskets, and other accessories for all container types.', features: ['Drum liners', 'Faucets and valves', 'Sealing rings and closures'] },
+          ].map((product) => (
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
+              <div class="aspect-[4/3] bg-brand-100 flex items-center justify-center">
+                <svg class="w-16 h-16 text-brand-300" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="p-6">
+                <h2 class="text-xl font-display font-bold text-slate-900">{product.title}</h2>
+                <p class="mt-2 text-slate-600 text-sm">{product.desc}</p>
+                <ul class="mt-4 space-y-1">
+                  {product.features.map((f) => (
+                    <li class="flex items-start gap-2 text-sm text-slate-600">
+                      <svg class="w-4 h-4 text-brand-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div class="mt-6">
+                  <Button href="/contact" style="primary">
+                    Request Quote
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Bulk Orders CTA -->
+  <section class="py-16 lg:py-20 bg-brand-900">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl lg:text-4xl font-display font-bold text-white">
+        Need a Custom Quote?
+      </h2>
+      <p class="mt-4 text-xl text-blue-200">
+        We offer volume discounts on bulk orders. Contact our sales team for competitive pricing on your packaging needs.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+        <Button href="/contact" style="secondary" size="lg">
+          Request a Quote
+        </Button>
+        <a 
+          href={`tel:${company.phone?.replace(/[^0-9+]/g, '')}`}
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-800 text-white font-bold rounded-lg hover:bg-brand-700 transition-colors border border-white/20"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          Call Sales: {company.phone}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

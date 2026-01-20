@@ -1,30 +1,27 @@
 {
-  "id": "saas-superhuman",
-  "name": "Superhuman-inspired SaaS",
-  "industry": "saas",
-  "tags": ["saas", "software", "productivity", "email", "ai", "high-velocity", "startup", "enterprise", "pricing-plans"],
-  "description": "High-contrast, Superhuman-inspired single-product SaaS template with strong typography, modular feature storytelling, pricing, and conversion-first CTAs.",
+  "id": "ecommerce-wholesale",
+  "name": "Ecommerce & Wholesale",
+  "industry": "industrial",
+  "tags": ["wholesale", "distribution", "manufacturing", "industrial", "containers", "packaging", "equipment", "b2b", "supply"],
+  "description": "Professional template for wholesale distributors, manufacturers, and industrial suppliers. Features product catalog, request-for-quote functionality, and B2B-focused design.",
   "status": "approved",
-  "heroMedia": "either",
+  "heroMedia": "image",
   "pages": [
     "home",
-    "services",
-    "pricing",
-    "blog",
+    "about",
+    "products",
     "contact",
     "faq",
     "privacy",
     "terms"
   ],
   "contentCollections": [
-    "services",
-    "blog",
+    "products",
     "testimonials",
-    "faq",
-    "pricing-plans"
+    "faq"
   ],
   "previewUrl": null,
-  "sourceInspiration": "https://superhuman.com/",
-  "createdAt": "2026-01-19",
-  "updatedAt": "2026-01-19"
+  "sourceInspiration": "Industrial supply and wholesale distribution sites",
+  "createdAt": "2026-01-20",
+  "updatedAt": "2026-01-20"
 }
