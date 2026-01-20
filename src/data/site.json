@@ -1,0 +1,71 @@
+{
+  "company": {
+    "name": "General Container",
+    "tagline": "The most complete selection of shipping and storage containers available",
+    "description": "General Container offers the most complete selection of shipping and storage containers available, including Stainless Steel Drums, Steel Drums, Polyethylene Drums, Overpack/Salvage Drums, CurTec Packaging, Pails and Cans, Fiber Drums, and more.",
+    "phone": "(732) 435-0020",
+    "email": "Sales@GeneralContainer.com",
+    "address": null,
+    "hours": null
+  },
+  "branding": {
+    "logo": "https://res.cloudinary.com/dil14r8je/image/upload/v1768921112/auto-site-builder/General%20Container/image_0.png",
+    "primaryColor": "#1e40af",
+    "secondaryColor": null
+  },
+  "hero": {
+    "headline": "The Most Complete Selection of Shipping and Storage Containers",
+    "subheadline": "Including Stainless Steel Drums, Steel Drums, Polyethylene Drums, Overpack/Salvage Drums, CurTec Packaging, Pails and Cans, Fiber Drums, and more.",
+    "cta": {
+      "label": "REQUEST A QUOTE",
+      "href": "/quote"
+    },
+    "secondaryCta": null,
+    "backgroundImage": "https://plus.unsplash.com/premium_photo-1760531109277-d805e30ba962?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8c2hvcHBpbmclMjBleHBlcmllbmNlJTIwbHV4dXJ5fGVufDB8MHx8fDE3Njg5MjExNTR8MA&ixlib=rb-4.1.0&q=80&w=1080"
+  },
+  "sections": {
+    "about": {
+      "headline": "About Us",
+      "content": "General Container offers the most complete selection of shipping and storage containers available. We specialize in providing high-quality industrial containers including stainless steel drums, steel drums, polyethylene drums, overpack/salvage drums, CurTec packaging, pails and cans, fiber drums, intermediate bulk containers, and composite drums.",
+      "image": "https://images.unsplash.com/photo-1674965430133-4b92fae30450?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8c2hvcHBpbmclMjBleHBlcmllbmNlJTIwbHV4dXJ5fGVufDB8MHx8fDE3Njg5MjExNTR8MA&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    "services": {
+      "headline": "Our Container Solutions"
+    },
+    "team": {
+      "headline": "Our Team"
+    },
+    "testimonials": {
+      "headline": "What Our Clients Say"
+    },
+    "contact": {
+      "headline": "Contact Us"
+    }
+  },
+  "navigation": {
+    "items": [
+      {
+        "label": "About",
+        "href": "/about"
+      },
+      {
+        "label": "Contact",
+        "href": "/contact"
+      }
+    ],
+    "ctaButton": {
+      "label": "REQUEST A QUOTE",
+      "href": "/contact"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 General Container Corp. All Rights Reserved.",
+    "socialLinks": {
+      "facebook": null
+    }
+  },
+  "seo": {
+    "title": "General Container - Home",
+    "description": "General Container offers the most complete selection of shipping and storage containers available, including Stainless Steel Drums, Steel Drums, Polyethylene Drums, Overpack/Salvage Drums, CurTec Packaging, Pails and Cans, Fiber Drums, and more."
+  }
+}
